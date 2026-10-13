@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+/* Paleta central. Para adaptar a la identidad oficial de Godoy Cruz, ajustar estos tokens.
+   `static` emite todas las variables aunque ninguna clase las use (los colores de equipo se arman dinámicamente). */
+@theme static {
+  --font-sans: 'Segoe UI', 'Trebuchet MS', system-ui, sans-serif;
+  --font-display: 'Arial Black', 'Segoe UI Black', 'Segoe UI', system-ui, sans-serif;
+
+  --color-night: #120e2b;
+  --color-surface: #1f1846;
+  --color-surface-strong: #2c2363;
+  --color-ink: #fdfbff;
+  --color-muted: #b9b2e0;
+
+  --color-accent: #ff4d6d;
+  --color-accent-2: #ffb703;
+  --color-accent-3: #06d6a0;
+  --color-accent-4: #4cc9f0;
+
+  /* Un color fijo por posición de equipo (1 a 4). */
+  --color-team-1: #ff4d6d;
+  --color-team-2: #ffb703;
+  --color-team-3: #06d6a0;
+  --color-team-4: #4cc9f0;
+}
+
+/* Todo escala con el ancho de pantalla: pensado para un TV de 40-42" (1080p o 4K) visto a distancia. */
+html {
+  font-size: clamp(16px, 1.25vw, 48px);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-night);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgb(255 77 109 / 0.22), transparent 32%),
+    radial-gradient(circle at 88% 12%, rgb(76 201 240 / 0.2), transparent 30%),
+    radial-gradient(circle at 75% 92%, rgb(6 214 160 / 0.16), transparent 34%),
+    radial-gradient(circle at 20% 95%, rgb(255 183 3 / 0.14), transparent 30%);
+  background-attachment: fixed;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Feedback de pareja encontrada en Memoria. */
+@keyframes match-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+:focus-visible {
+  outline: 4px solid var(--color-accent-2);
+  outline-offset: 4px;
+}

@@ -1,0 +1,10 @@
+[
+  {"id": "pair-demo-01", "label": "Círculo (demo)", "image": "/images/memory/demo-01-circulo.svg"},
+  {"id": "pair-demo-02", "label": "Cuadrado (demo)", "image": "/images/memory/demo-02-cuadrado.svg"},
+  {"id": "pair-demo-03", "label": "Triángulo (demo)", "image": "/images/memory/demo-03-triangulo.svg"},
+  {"id": "pair-demo-04", "label": "Estrella (demo)", "image": "/images/memory/demo-04-estrella.svg"},
+  {"id": "pair-demo-05", "label": "Corazón (demo)", "image": "/images/memory/demo-05-corazon.svg"},
+  {"id": "pair-demo-06", "label": "Rombo (demo)", "image": "/images/memory/demo-06-rombo.svg"},
+  {"id": "pair-demo-07", "label": "Hexágono (demo)", "image": "/images/memory/demo-07-hexagono.svg"},
+  {"id": "pair-demo-08", "label": "Luna (demo)", "image": "/images/memory/demo-08-luna.svg"}
+]

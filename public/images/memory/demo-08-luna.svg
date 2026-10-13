@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Imagen de DEMOSTRACIÓN para el juego de memoria: reemplazar por contenido real. -->
+  <g fill="#2ec4b6" stroke="#120e2b" stroke-width="6" stroke-linejoin="round"><path d="M128 30 A66 66 0 1 0 150 140 A54 54 0 1 1 128 30 Z"/></g>
+  <text x="100" y="190" font-family="Arial, sans-serif" font-size="18" font-weight="900" letter-spacing="3" text-anchor="middle" fill="#120e2b" fill-opacity="0.45">DEMO</text>
+</svg>

@@ -1,0 +1,17 @@
+[
+  { "id": "demo-001", "question": "[DEMO] ¿Cuánto es 2 + 3?", "options": ["4", "5", "6", "7"], "correctOption": 1 },
+  { "id": "demo-002", "question": "[DEMO] ¿Cuántos lados tiene un triángulo?", "options": ["3", "4", "5", "6"], "correctOption": 0 },
+  { "id": "demo-003", "question": "[DEMO] ¿Qué color se forma al mezclar azul y amarillo?", "options": ["Rojo", "Violeta", "Verde", "Naranja"], "correctOption": 2 },
+  { "id": "demo-004", "question": "[DEMO] ¿Cuántos días tiene una semana?", "options": ["5", "6", "8", "7"], "correctOption": 3 },
+  { "id": "demo-005", "question": "[DEMO] ¿Cuál de estas opciones es una fruta?", "options": ["Manzana", "Papa", "Lechuga", "Cebolla"], "correctOption": 0 },
+  { "id": "demo-006", "question": "[DEMO] ¿Cuánto es 10 − 4?", "options": ["5", "6", "7", "14"], "correctOption": 1 },
+  { "id": "demo-007", "question": "[DEMO] ¿Qué figura tiene cuatro lados iguales?", "options": ["Círculo", "Triángulo", "Cuadrado", "Óvalo"], "correctOption": 2 },
+  { "id": "demo-008", "question": "[DEMO] ¿Cuántas horas tiene un día?", "options": ["12", "20", "36", "24"], "correctOption": 3 },
+  { "id": "demo-009", "question": "[DEMO] ¿Qué letra viene después de la C en el abecedario?", "options": ["D", "B", "E", "F"], "correctOption": 0 },
+  { "id": "demo-010", "question": "[DEMO] ¿Cuánto es 3 × 3?", "options": ["6", "9", "12", "33"], "correctOption": 1 },
+  { "id": "demo-011", "question": "[DEMO] ¿Cuántos minutos tiene una hora?", "options": ["100", "30", "60", "90"], "correctOption": 2 },
+  { "id": "demo-012", "question": "[DEMO] ¿Cuál de estos es un número par?", "options": ["3", "7", "9", "8"], "correctOption": 3 },
+  { "id": "demo-013", "question": "[DEMO] ¿Cuántos meses tiene un año?", "options": ["12", "10", "11", "13"], "correctOption": 0 },
+  { "id": "demo-014", "question": "[DEMO] ¿Qué número es mayor?", "options": ["19", "91", "9", "1"], "correctOption": 1 },
+  { "id": "demo-015", "question": "[DEMO] ¿Cuánto es la mitad de 20?", "options": ["5", "15", "10", "2"], "correctOption": 2 }
+]

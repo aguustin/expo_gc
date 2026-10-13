@@ -1,0 +1,66 @@
+[
+  {
+    "id": "archivo-bodega-arizu",
+    "name": "Archivo Bodega Arizu",
+    "address": "Belgrano 1322, M5504 Godoy Cruz, Mendoza",
+    "lat": -32.90865749955278,
+    "lon": -68.84366438871481,
+    "image": "/images/locations/Espacio-Arizu.jpg"
+  },
+  {
+    "id": "cine-teatro-plaza",
+    "name": "Cine Teatro Plaza",
+    "address": "Colón 27, M5501 Godoy Cruz, Mendoza",
+    "lat": -32.92471697242388,
+    "lon": -68.845068988714,
+    "image": "/images/locations/teatro-plaza-godoy-cruz.jpg"
+  },
+  {
+    "id": "centro-cristoforo-colombo",
+    "name": "Centro Patrimonial y Artístico Cristoforo Colombo",
+    "address": "Antonio Tomba 246, M5501 Godoy Cruz, Mendoza",
+    "lat": -32.92204881463784,
+    "lon": -68.84293917337165,
+    "image": "/images/locations/Cristofolo-Colombo.jpg"
+  },
+  {
+    "id": "concejo-deliberante",
+    "name": "Honorable Concejo Deliberante de Godoy Cruz",
+    "address": "Rivadavia 448, M5501 Godoy Cruz, Mendoza",
+    "lat": -32.92502157856361,
+    "lon": -68.84312743289216,
+    "image": "/images/locations/honorable_consejo.jpg"
+  },
+  {
+    "id": "parque-estacion-benegas",
+    "name": "Parque Estación Benegas",
+    "address": "Av. San Martín Sur 2375, M5501 Godoy Cruz, Mendoza",
+    "lat": -32.95048157819796,
+    "lon": -68.8543404924116,
+    "image": "/images/locations/Parque_Benegas.jpeg"
+  },
+  {
+    "id": "plaza-godoy-cruz",
+    "name": "Plaza Godoy Cruz",
+    "address": "Perito Moreno y Rivadavia, M5501 Godoy Cruz, Mendoza",
+    "lat": -32.92511997316198,
+    "lon": -68.84442846172779,
+    "image": "/images/locations/plaza-godoy-cruz.jpg"
+  },
+  {
+    "id": "estadio-feliciano-gambarte",
+    "name": "Estadio Feliciano Gambarte",
+    "address": "Balcarce 477, M5504 Godoy Cruz, Mendoza",
+    "lat": -32.920085563941505,
+    "lon": -68.83925709056363,
+    "image": "/images/locations/estadio.jpg"
+  },
+  {
+    "id": "casino-de-mendoza",
+    "name": "Casino de Mendoza",
+    "address": "Belgrano 1860, M5502 Godoy Cruz, Mendoza",
+    "lat": -32.90444521228297,
+    "lon": -68.84228608871497,
+    "image": "/images/locations/Casino_de_Mendoza.jpg"
+  }
+]
