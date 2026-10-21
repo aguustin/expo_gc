@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140">
-  <!-- PLACEHOLDER: reemplazar por el escudo oficial de Godoy Cruz (ver src/brand.ts) -->
-  <path d="M60 4 L112 22 V70 C112 104 88 126 60 136 C32 126 8 104 8 70 V22 Z" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-width="5" stroke-dasharray="10 7"/>
-  <text x="60" y="68" font-family="Arial, sans-serif" font-size="30" font-weight="900" text-anchor="middle" fill="#ffffff">GC</text>
-  <text x="60" y="94" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="2" text-anchor="middle" fill="#ffffff" fill-opacity="0.75">ESCUDO</text>
-</svg>

@@ -1,10 +1,14 @@
-// Identidad de marca. Para usar los recursos oficiales de Godoy Cruz, reemplazar
-// el archivo del escudo en src/assets/brand/ y actualizar estos textos.
-import logo from './assets/brand/logo-placeholder.svg'
+// Identidad institucional. Los archivos originales se usan tal cual (no se copian ni se modifican):
+// ambos son JPEG con fondo blanco, por eso siempre se muestran sobre superficies blancas.
+import godoyCruzSymbol from './assets/gc.jpeg'
+import casaDelFuturoLogo from './assets/casa_del_futuro.jpg'
 
 export const brand = {
   name: 'Godoy Cruz',
   tagline: 'Desafío interactivo',
-  logo,
-  logoIsPlaceholder: true,
+  // Símbolo principal de Godoy Cruz (183 × 219 px).
+  symbol: godoyCruzSymbol,
+  // Logo de la sede, Casa del Futuro (405 × 193 px).
+  venueLogo: casaDelFuturoLogo,
+  venueName: 'Casa del Futuro',
 }

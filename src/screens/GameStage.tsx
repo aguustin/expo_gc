@@ -1,6 +1,9 @@
 import type { ComponentType } from 'react'
 import { AppShell } from '../components/AppShell.tsx'
+import { ChallengeProgress } from '../components/ChallengeProgress.tsx'
 import { ExitToMenuButton } from '../components/ExitToMenuButton.tsx'
+import { GAME_ICONS } from '../components/gameIcons.ts'
+import { Icon } from '../components/Icon.tsx'
 import { Scoreboard } from '../components/Scoreboard.tsx'
 import { getGame } from '../games/catalog.ts'
 import { LocationGame } from '../games/location/LocationGame.tsx'
@@ -24,21 +27,26 @@ export function GameStage() {
   if (!gameId) return null
   const game = getGame(gameId)
   const Game = GAME_COMPONENTS[gameId]
+  const isChallenge = state.mode?.kind === 'challenge'
 
   return (
     <AppShell
+      fitScreen
       aside={
         <div className="flex items-center gap-6">
-          <div className="text-right">
-            <p className="font-display text-3xl uppercase">
-              <span aria-hidden="true">{game.icon} </span>
-              {game.title}
-            </p>
-            {state.mode?.kind === 'challenge' && (
-              <p className="text-accent-2 text-lg font-bold uppercase">
-                Desafío completo · Juego {state.gameIndex + 1} de {CHALLENGE_ORDER.length}
-              </p>
-            )}
+          {isChallenge && <ChallengeProgress gameIndex={state.gameIndex} currentDone={false} compact />}
+          <div className="flex items-center gap-3">
+            <span className="bg-accent grid h-14 w-14 place-items-center rounded-2xl text-white shadow-[0_3px_0_var(--color-accent-deep)]">
+              <Icon name={GAME_ICONS[gameId]} className="h-8 w-8" />
+            </span>
+            <div className="leading-tight">
+              <p className="font-display text-ink text-3xl font-extrabold tracking-tight">{game.title}</p>
+              {isChallenge && (
+                <p className="text-accent text-lg font-bold">
+                  Desafío completo · Juego {state.gameIndex + 1} de {CHALLENGE_ORDER.length}
+                </p>
+              )}
+            </div>
           </div>
           <ExitToMenuButton />
         </div>
@@ -46,7 +54,7 @@ export function GameStage() {
     >
       <Scoreboard teams={state.teams} activeTeamId={state.activeTeamId} />
 
-      <section className="mt-[2.5vh] flex flex-1 flex-col">
+      <section className="mt-[2.2vh] flex min-h-0 flex-1 flex-col">
         {/* La key garantiza un juego nuevo (estado y timers limpios) en cada posición del desafío. */}
         <Game key={`${state.gameIndex}-${gameId}`} />
       </section>

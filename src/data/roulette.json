@@ -1,17 +1,79 @@
 [
-  { "id": "demo-001", "question": "[DEMO] ¿Cuánto es 2 + 3?", "options": ["4", "5", "6", "7"], "correctOption": 1 },
-  { "id": "demo-002", "question": "[DEMO] ¿Cuántos lados tiene un triángulo?", "options": ["3", "4", "5", "6"], "correctOption": 0 },
-  { "id": "demo-003", "question": "[DEMO] ¿Qué color se forma al mezclar azul y amarillo?", "options": ["Rojo", "Violeta", "Verde", "Naranja"], "correctOption": 2 },
-  { "id": "demo-004", "question": "[DEMO] ¿Cuántos días tiene una semana?", "options": ["5", "6", "8", "7"], "correctOption": 3 },
-  { "id": "demo-005", "question": "[DEMO] ¿Cuál de estas opciones es una fruta?", "options": ["Manzana", "Papa", "Lechuga", "Cebolla"], "correctOption": 0 },
-  { "id": "demo-006", "question": "[DEMO] ¿Cuánto es 10 − 4?", "options": ["5", "6", "7", "14"], "correctOption": 1 },
-  { "id": "demo-007", "question": "[DEMO] ¿Qué figura tiene cuatro lados iguales?", "options": ["Círculo", "Triángulo", "Cuadrado", "Óvalo"], "correctOption": 2 },
-  { "id": "demo-008", "question": "[DEMO] ¿Cuántas horas tiene un día?", "options": ["12", "20", "36", "24"], "correctOption": 3 },
-  { "id": "demo-009", "question": "[DEMO] ¿Qué letra viene después de la C en el abecedario?", "options": ["D", "B", "E", "F"], "correctOption": 0 },
-  { "id": "demo-010", "question": "[DEMO] ¿Cuánto es 3 × 3?", "options": ["6", "9", "12", "33"], "correctOption": 1 },
-  { "id": "demo-011", "question": "[DEMO] ¿Cuántos minutos tiene una hora?", "options": ["100", "30", "60", "90"], "correctOption": 2 },
-  { "id": "demo-012", "question": "[DEMO] ¿Cuál de estos es un número par?", "options": ["3", "7", "9", "8"], "correctOption": 3 },
-  { "id": "demo-013", "question": "[DEMO] ¿Cuántos meses tiene un año?", "options": ["12", "10", "11", "13"], "correctOption": 0 },
-  { "id": "demo-014", "question": "[DEMO] ¿Qué número es mayor?", "options": ["19", "91", "9", "1"], "correctOption": 1 },
-  { "id": "demo-015", "question": "[DEMO] ¿Cuánto es la mitad de 20?", "options": ["5", "15", "10", "2"], "correctOption": 2 }
+  {
+    "id": "gc-futbol",
+    "question": "¿Cuál es el equipo de fútbol más representativo de Godoy Cruz?",
+    "options": ["Independiente Rivadavia", "Club Deportivo Godoy Cruz Antonio Tomba", "Gimnasia y Esgrima de Mendoza", "Club Atlético San Martín"],
+    "correctOption": 1,
+    "image": "/images/roulette/club-deportivo.jpeg"
+  },
+  {
+    "id": "gc-evento-hoy",
+    "question": "¿Cuál es el nombre del evento al que asististe hoy?",
+    "options": ["Vino a la Ciudad", "Festa in Piazza", "Expo Edu Innova", "Festival de la Libertad"],
+    "correctOption": 2,
+    "image": "/images/roulette/espacio-arizu.jpg"
+  },
+  {
+    "id": "gc-metrotranvia",
+    "question": "¿Cuál de estas paradas del metrotranvía está en Godoy Cruz?",
+    "options": ["Estación Mendoza", "Estación Gutiérrez", "Parador Patricias Mendocinas", "Parador Progreso"],
+    "correctOption": 3,
+    "image": "/images/roulette/tranvia.jpg"
+  },
+  {
+    "id": "gc-mega-evento",
+    "question": "¿Cuál es el mega evento más importante de Godoy Cruz?",
+    "options": ["Fiesta Provincial de la Cerveza", "Fiesta de la Cosecha", "Festa in Piazza", "Festival de la Libertad"],
+    "correctOption": 0,
+    "image": "/images/roulette/fiesta-cerveza.jpg"
+  },
+  {
+    "id": "gc-parque",
+    "question": "¿Cuál de estos parques está en Godoy Cruz?",
+    "options": ["Parque General San Martín", "Parque San Vicente", "Parque Central", "Parque La Familia"],
+    "correctOption": 1,
+    "image": "/images/roulette/parque.jpg"
+  },
+  {
+    "id": "gc-distritos",
+    "question": "¿Cuántos distritos tiene Godoy Cruz?",
+    "options": ["7 distritos", "11 distritos", "9 distritos", "12 distritos"],
+    "correctOption": 2,
+    "image": "/images/roulette/godoy-cruz.jpg"
+  },
+  {
+    "id": "gc-intendente",
+    "question": "¿Cuál es el nombre del actual intendente de Godoy Cruz?",
+    "options": ["Tadeo García Zalazar", "Ulpiano Suarez", "Diego Costarelli", "Alfredo Cornejo"],
+    "correctOption": 2,
+    "image": "/images/roulette/costarelli.png"
+  },
+  {
+    "id": "gc-evento-gastronomico",
+    "question": "¿Cuál de estos eventos gastronómicos masivos se realiza en Godoy Cruz?",
+    "options": ["Vino a la Ciudad", "Festival Sabores del Mundo", "Taninos Winefest", "La Receta de la Abuela"],
+    "correctOption": 1,
+    "image": "/images/roulette/sabores-del-mundo.jpg"
+  },
+  {
+    "id": "gc-teatro",
+    "question": "¿Qué histórico teatro y sala cultural funciona en el centro de Godoy Cruz?",
+    "options": ["Teatro Independencia", "Teatro Quintanilla", "Teatro Mendoza", "Cine Teatro Plaza"],
+    "correctOption": 3,
+    "image": "/images/roulette/teatro-plaza.jpg"
+  },
+  {
+    "id": "gc-aniversario",
+    "question": "¿Qué día se celebra el aniversario del departamento de Godoy Cruz?",
+    "options": ["25 de mayo", "11 de mayo", "9 de julio", "11 de octubre"],
+    "correctOption": 1,
+    "image": "/images/roulette/11-mayo.jpeg"
+  },
+  {
+    "id": "gc-evento-cultural",
+    "question": "¿Cuál de estos eventos culturales se realiza en Godoy Cruz?",
+    "options": ["Carrusel de la Vendimia", "Vía Blanca de las Reinas", "Festival de Cine Mirada Oeste", "Festival Full Verano: Música y Vendimia"],
+    "correctOption": 2,
+    "image": "/images/roulette/MO.jpg"
+  }
 ]

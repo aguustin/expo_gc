@@ -1,5 +1,5 @@
-// Fuente de parejas de Memoria. Para usar contenido real: poner las imágenes en public/images/memory/
-// y actualizar src/data/memory.json con el mismo formato; los componentes no necesitan cambios.
+// Fuente de parejas de Memoria. Las fotos se comparten con la Ruleta (public/images/roulette/);
+// para cambiarlas alcanza con editar src/data/memory.json, sin tocar los componentes.
 import rawPairs from '../../data/memory.json'
 import { parsePairs, PAIRS_PER_GAME } from './memoryLogic.ts'
 

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../../components/Button.tsx'
 import { GameDataError } from '../../components/GameDataError.tsx'
+import { AnswerOption, InfoPill, PanelLabel, StatusBanner, TimerBar, type AnswerState } from '../../components/GameUI.tsx'
+import { Icon } from '../../components/Icon.tsx'
 import { teamColor } from '../../components/teamColor.ts'
 import { gameProgressKey, loadGameProgress, persistGameProgress } from '../../state/persistence.ts'
 import { useSession } from '../../state/SessionContext.tsx'
@@ -114,133 +116,117 @@ export function RouletteGame() {
       : game.outcome === 'timeout'
         ? 0
         : Math.max(0, Math.ceil((game.deadline - now) / 1000))
-  const timeRatio = secondsLeft / totalSeconds
-  const timerColor =
-    secondsLeft <= 5 ? 'var(--color-accent)' : secondsLeft <= 10 ? 'var(--color-accent-2)' : 'var(--color-accent-3)'
   const isLast = game.resolvedCount >= game.total || segments.length <= 1
+  const answeredByName = session.teams[teamIndex(game.answeredBy)]?.name ?? ''
+  const showImage = game.phase === 'answering' || game.phase === 'revealed'
 
   return (
-    <div className="grid flex-1 grid-cols-[auto_1fr] items-center gap-[3vw]">
-      <div className="flex flex-col items-center gap-6">
-        <div className="h-[min(46vh,32vw)]">
-          <Wheel labels={labels} rotation={rotation} spinning={game.phase === 'spinning'} durationMs={SPIN_DURATION_MS} />
-        </div>
+    <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] items-center gap-[2.5vw]">
+      <div className="flex min-h-0 flex-col items-center gap-7">
+        {/* Con la pregunta en pantalla, la imagen reemplaza a la ruleta (que ya la sorteó). */}
+        {showImage && game.current?.image ? (
+          <figure className="surface-raised rise-in m-0 aspect-[3/2] w-full max-h-[52vh] overflow-hidden rounded-[var(--radius-panel)] p-3">
+            <img
+              key={game.current.id}
+              src={game.current.image}
+              alt=""
+              className="bg-surface-3 h-full w-full rounded-[1.1rem] object-contain"
+              draggable={false}
+            />
+          </figure>
+        ) : (
+          <div className="h-[min(46vh,32vw)]">
+            <Wheel labels={labels} rotation={rotation} spinning={game.phase === 'spinning'} durationMs={SPIN_DURATION_MS} />
+          </div>
+        )}
         {/* El mismo lugar sirve para girar y, con la pregunta resuelta, para continuar. */}
         {game.phase === 'revealed' ? (
-          <Button className="px-10 py-5 text-3xl" onClick={() => send({ type: 'continue' })}>
-            {isLast ? 'Ver resultados' : 'Siguiente pregunta →'}
+          <Button size="xl" onClick={() => send({ type: 'continue' })}>
+            {isLast ? 'Ver resultados' : 'Siguiente pregunta'}
+            <Icon name="arrowRight" className="h-9 w-9" strokeWidth={2.5} />
           </Button>
         ) : (
-          <Button className="px-14 py-5 text-3xl uppercase" onClick={handleSpin} disabled={game.phase !== 'idle'}>
+          <Button size="xl" className="min-w-[16rem]" onClick={handleSpin} disabled={game.phase !== 'idle'}>
+            <Icon name="refresh" className={`h-9 w-9 ${game.phase === 'spinning' ? 'animate-spin' : ''}`} strokeWidth={2.5} />
             {game.phase === 'spinning' ? 'Girando…' : '¡Girar!'}
           </Button>
         )}
       </div>
 
-      <div className="bg-surface/70 flex h-full flex-col rounded-[2rem] p-8">
-        <div className="flex items-center justify-between gap-6">
-          <p className="text-2xl font-bold">
-            <span className="text-muted">Turno de </span>
-            <span style={{ color: teamColor(activeIndex) }}>{activeTeam?.name}</span>
-          </p>
-          <p className="bg-night/60 rounded-full px-5 py-1 text-2xl font-extrabold tabular-nums">
-            Pregunta {questionNumber} de {game.total}
-          </p>
-        </div>
-
+      <div data-panel className="surface-raised flex h-full min-h-0 flex-col overflow-hidden rounded-[var(--radius-panel)] px-8 py-6">
         {game.current && (game.phase === 'answering' || game.phase === 'revealed') ? (
           <>
-            {game.phase === 'revealed' ? (
-              <Feedback
-                outcome={game.outcome}
-                teamName={session.teams[teamIndex(game.answeredBy)]?.name ?? ''}
-                correctLetter={OPTION_LETTERS[game.current.correctOption]}
-              />
-            ) : (
-              <div className="mt-4 flex h-16 items-center gap-5">
-                <div className="bg-night/60 h-5 flex-1 overflow-hidden rounded-full">
-                  <div
-                    className="h-full rounded-full transition-[width] duration-200 ease-linear"
-                    style={{ width: `${timeRatio * 100}%`, backgroundColor: timerColor }}
-                  />
-                </div>
-                <p
-                  className="font-display w-28 text-right text-5xl tabular-nums"
-                  style={{ color: timerColor }}
-                  aria-label={`${secondsLeft} segundos restantes`}
-                >
-                  {secondsLeft}s
-                </p>
-              </div>
-            )}
+            {/* Una sola fila: progreso + temporizador (o resultado). El turno ya se ve en el marcador. */}
+            <div className="flex h-14 shrink-0 items-center gap-5">
+              {/* Con el resultado a la vista, el aviso usa toda la fila para que entre el nombre del equipo. */}
+              {game.phase !== 'revealed' && (
+                <InfoPill>
+                  Pregunta {questionNumber} de {game.total}
+                </InfoPill>
+              )}
+              {game.phase === 'revealed' ? (
+                <StatusBanner tone={game.outcome === 'correct' ? 'success' : game.outcome === 'timeout' ? 'warning' : 'danger'}>
+                  {game.outcome === 'correct'
+                    ? `¡Correcto! +${POINTS_PER_CORRECT_ANSWER} para ${answeredByName}`
+                    : game.outcome === 'timeout'
+                      ? `¡Se acabó el tiempo! Era la ${OPTION_LETTERS[game.current.correctOption]}`
+                      : `Incorrecto. Era la ${OPTION_LETTERS[game.current.correctOption]}`}
+                </StatusBanner>
+              ) : (
+                <TimerBar secondsLeft={secondsLeft} totalSeconds={totalSeconds} />
+              )}
+            </div>
 
             <h2
-              className={`mt-4 leading-tight font-extrabold ${game.current.question.length > 90 ? 'text-3xl' : 'text-4xl'}`}
+              className="font-display text-ink mt-3 text-3xl leading-tight font-bold"
             >
               {game.current.question}
             </h2>
 
-            <div className="mt-5 grid grid-cols-2 gap-4">
+            <div className="mt-3 grid gap-2.5">
               {game.current.options.map((option, index) => {
                 const revealed = game.phase === 'revealed'
-                const isCorrect = index === game.current?.correctOption
-                const isSelected = index === game.selectedOption
-                let style = 'bg-surface-strong ring-white/15 hover:bg-white/15'
-                if (revealed && isCorrect) style = 'bg-accent-3 text-night ring-accent-3'
-                else if (revealed && isSelected) style = 'bg-accent text-white ring-accent'
-                else if (revealed) style = 'bg-surface-strong ring-transparent opacity-40'
+                const state: AnswerState = !revealed
+                  ? 'idle'
+                  : index === game.current?.correctOption
+                    ? 'correct'
+                    : index === game.selectedOption
+                      ? 'wrong'
+                      : 'dimmed'
                 return (
-                  <button
+                  <AnswerOption
                     key={index}
-                    type="button"
+                    letter={OPTION_LETTERS[index]}
+                    state={state}
+                    textClassName="text-2xl"
                     disabled={game.phase !== 'answering'}
                     onClick={() => send({ type: 'answer', option: index, teamId: activeTeamId, now: Date.now() })}
-                    className={`flex items-center gap-4 rounded-2xl px-6 py-3 text-left text-3xl font-bold ring-4 transition disabled:cursor-default ${style}`}
                   >
-                    <span className="font-display bg-night/30 grid h-12 w-12 shrink-0 place-items-center rounded-xl text-2xl">
-                      {OPTION_LETTERS[index]}
-                    </span>
                     {option}
-                  </button>
+                  </AnswerOption>
                 )
               })}
             </div>
-
           </>
         ) : (
           <div className="flex flex-1 flex-col items-center justify-center text-center">
-            <p className="font-display text-6xl uppercase" style={{ color: teamColor(activeIndex) }}>
+            <div className="mb-6">
+              <InfoPill>
+                Pregunta {questionNumber} de {game.total}
+              </InfoPill>
+            </div>
+            <PanelLabel>{game.phase === 'spinning' ? 'Sorteando la pregunta…' : 'Le toca a'}</PanelLabel>
+            <p className="font-display mt-2 text-6xl font-extrabold tracking-tight" style={{ color: teamColor(activeIndex) }}>
               {activeTeam?.name}
             </p>
-            <p className="text-muted mt-4 text-3xl font-semibold">
+            <p className="text-ink-2 mt-5 text-3xl font-medium">
               {game.phase === 'spinning'
-                ? 'Sorteando la pregunta…'
+                ? 'Mirá dónde se detiene la ruleta.'
                 : `Girá la ruleta. Cada respuesta correcta vale ${POINTS_PER_CORRECT_ANSWER} puntos.`}
             </p>
           </div>
         )}
       </div>
     </div>
-  )
-}
-
-type FeedbackProps = {
-  outcome: RouletteState['outcome']
-  teamName: string
-  correctLetter: string
-}
-
-// Ocupa el lugar del temporizador una vez resuelta la pregunta; la opción correcta queda resaltada en verde.
-function Feedback({ outcome, teamName, correctLetter }: FeedbackProps) {
-  const [text, color] =
-    outcome === 'correct'
-      ? [`¡Correcto! +${POINTS_PER_CORRECT_ANSWER} para ${teamName}`, 'bg-accent-3 text-night']
-      : outcome === 'timeout'
-        ? [`¡Se acabó el tiempo! Era la ${correctLetter}`, 'bg-accent-2 text-night']
-        : [`Incorrecto. Era la ${correctLetter}`, 'bg-accent text-white']
-  return (
-    <p className={`mt-4 flex h-16 items-center truncate rounded-2xl px-6 text-3xl font-black ${color}`} role="status">
-      {text}
-    </p>
   )
 }

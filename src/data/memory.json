@@ -1,10 +1,10 @@
 [
-  {"id": "pair-demo-01", "label": "Círculo (demo)", "image": "/images/memory/demo-01-circulo.svg"},
-  {"id": "pair-demo-02", "label": "Cuadrado (demo)", "image": "/images/memory/demo-02-cuadrado.svg"},
-  {"id": "pair-demo-03", "label": "Triángulo (demo)", "image": "/images/memory/demo-03-triangulo.svg"},
-  {"id": "pair-demo-04", "label": "Estrella (demo)", "image": "/images/memory/demo-04-estrella.svg"},
-  {"id": "pair-demo-05", "label": "Corazón (demo)", "image": "/images/memory/demo-05-corazon.svg"},
-  {"id": "pair-demo-06", "label": "Rombo (demo)", "image": "/images/memory/demo-06-rombo.svg"},
-  {"id": "pair-demo-07", "label": "Hexágono (demo)", "image": "/images/memory/demo-07-hexagono.svg"},
-  {"id": "pair-demo-08", "label": "Luna (demo)", "image": "/images/memory/demo-08-luna.svg"}
+  { "id": "pair-club-tomba", "label": "Club Godoy Cruz Antonio Tomba", "image": "/images/roulette/club-deportivo.jpeg" },
+  { "id": "pair-espacio-arizu", "label": "Espacio Arizu", "image": "/images/roulette/espacio-arizu.jpg" },
+  { "id": "pair-fiesta-cerveza", "label": "Fiesta de la Cerveza", "image": "/images/roulette/fiesta-cerveza.jpg" },
+  { "id": "pair-mirada-oeste", "label": "Mirada Oeste", "image": "/images/roulette/MO.jpg" },
+  { "id": "pair-sabores-del-mundo", "label": "Sabores del Mundo", "image": "/images/roulette/sabores-del-mundo.jpg" },
+  { "id": "pair-11-de-mayo", "label": "11 de mayo", "image": "/images/roulette/11-mayo.jpeg" },
+  { "id": "pair-godoy-cruz", "label": "Godoy Cruz", "image": "/images/roulette/godoy-cruz.jpg" },
+  { "id": "pair-parque", "label": "Parque", "image": "/images/roulette/parque.jpg" }
 ]

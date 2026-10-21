@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from 'react'
+import { Icon, type IconName } from '../../components/Icon.tsx'
 import { MAP_TOLERANCE_METERS, type GeoPoint, type Outcome, type Place } from './locationLogic.ts'
 import type { MapData } from './mapData.ts'
 import {
@@ -35,7 +36,7 @@ const COLORS = {
   major: '#f5a65b',
   casing: '#b9ad97',
   label: '#2b2b2b',
-  correct: '#06a77d',
+  correct: '#13723a',
 }
 
 // Movimiento mínimo (px) para que un toque se considere arrastre y no marque un punto.
@@ -193,7 +194,7 @@ export function LocationMap({ map, focusPoints, interactive, pending, onPick, re
   return (
     <div
       ref={containerRef}
-      className="relative h-full w-full overflow-hidden rounded-[2rem] ring-4 ring-white/10"
+      className="relative h-full w-full overflow-hidden rounded-[var(--radius-panel)] border-[6px] border-white shadow-[var(--shadow-elev-2)]"
       style={{ background: COLORS.land }}
     >
       <svg
@@ -294,31 +295,25 @@ export function LocationMap({ map, focusPoints, interactive, pending, onPick, re
         )}
       </svg>
 
-      <div className="text-night pointer-events-none absolute top-4 left-4 grid h-14 w-14 place-items-center rounded-full bg-white/85 text-xl font-black shadow">
+      <div className="text-ink pointer-events-none absolute top-4 left-4 grid h-14 w-14 place-items-center rounded-full border border-line bg-white text-xl font-extrabold shadow-[var(--shadow-elev-2)]">
         N↑
       </div>
       {/* Controles grandes para usar con mouse frente al TV. */}
       <div className="absolute top-4 right-4 flex flex-col gap-3">
-        <MapButton label="Acercar" onClick={() => zoomFromCenter(BUTTON_ZOOM_STEP)} disabled={zoom >= MAX_ZOOM - 0.01}>
-          +
-        </MapButton>
-        <MapButton label="Alejar" onClick={() => zoomFromCenter(1 / BUTTON_ZOOM_STEP)} disabled={zoom <= 1.01}>
-          −
-        </MapButton>
-        <MapButton label="Ver todo el mapa" onClick={() => setView(null)} disabled={view === null}>
-          ⤢
-        </MapButton>
+        <MapButton label="Acercar" onClick={() => zoomFromCenter(BUTTON_ZOOM_STEP)} disabled={zoom >= MAX_ZOOM - 0.01} icon="plus" />
+        <MapButton label="Alejar" onClick={() => zoomFromCenter(1 / BUTTON_ZOOM_STEP)} disabled={zoom <= 1.01} icon="minus" />
+        <MapButton label="Ver todo el mapa" onClick={() => setView(null)} disabled={view === null} icon="expand" />
       </div>
-      <p className="text-night pointer-events-none absolute right-4 bottom-3 rounded-lg bg-white/85 px-3 py-1 text-base font-semibold">
+      <p className="text-ink-2 pointer-events-none absolute right-4 bottom-3 rounded-lg bg-white/90 px-3 py-1 text-base font-semibold shadow-[var(--shadow-elev-1)]">
         {map.attribution}
       </p>
     </div>
   )
 }
 
-type MapButtonProps = { label: string; onClick: () => void; disabled: boolean; children: string }
+type MapButtonProps = { label: string; onClick: () => void; disabled: boolean; icon: IconName }
 
-function MapButton({ label, onClick, disabled, children }: MapButtonProps) {
+function MapButton({ label, onClick, disabled, icon }: MapButtonProps) {
   return (
     <button
       type="button"
@@ -326,9 +321,9 @@ function MapButton({ label, onClick, disabled, children }: MapButtonProps) {
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="text-night grid h-16 w-16 place-items-center rounded-2xl bg-white/90 text-4xl leading-none font-black shadow-lg transition hover:bg-white disabled:opacity-40"
+      className="text-ink border-line grid h-16 w-16 place-items-center rounded-[var(--radius-control)] border bg-white shadow-[0_4px_0_var(--color-line-strong),var(--shadow-elev-2)] transition-[transform,box-shadow] duration-150 hover:text-accent active:translate-y-[3px] active:shadow-[0_1px_0_var(--color-line-strong)] disabled:text-muted disabled:bg-surface-2 disabled:translate-y-[3px] disabled:shadow-[var(--shadow-elev-1)]"
     >
-      {children}
+      <Icon name={icon} className="h-8 w-8" strokeWidth={2.5} />
     </button>
   )
 }

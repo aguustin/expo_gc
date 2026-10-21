@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../../components/Button.tsx'
 import { GameDataError } from '../../components/GameDataError.tsx'
+import { InfoPill, StatusBanner, type StatusTone } from '../../components/GameUI.tsx'
+import { Icon } from '../../components/Icon.tsx'
+import { brand } from '../../brand.ts'
 import { teamColor } from '../../components/teamColor.ts'
 import { gameProgressKey, loadGameProgress, persistGameProgress } from '../../state/persistence.ts'
 import { useSession } from '../../state/SessionContext.tsx'
@@ -77,57 +80,52 @@ export function MemoryGame() {
     )
   }
 
-  let status: { text: string; className: string }
+  let status: { text: string; tone: StatusTone }
   if (game.lastMatch) {
     const finder = session.teams[teamIndex(game.lastMatch.teamId)]?.name ?? ''
     status = {
       text: game.phase === 'complete' ? `¡Pareja! +${POINTS_PER_PAIR} para ${finder}` : `¡Pareja! +${POINTS_PER_PAIR} · ¡Sigue ${finder}!`,
-      className: 'bg-accent-3 text-night',
+      tone: 'success',
     }
   } else if (game.phase === 'mismatch') {
-    status = { text: 'No coinciden. Pasa el turno…', className: 'bg-accent text-white' }
+    status = { text: 'No coinciden. Pasa el turno…', tone: 'danger' }
   } else {
-    status = {
-      text: game.selected.length === 1 ? 'Elegí la segunda carta' : 'Elegí una carta',
-      className: 'bg-night/60 text-ink',
-    }
+    status = { text: game.selected.length === 1 ? 'Elegí la segunda carta' : 'Elegí una carta', tone: 'neutral' }
   }
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex items-center gap-5">
-        <p className="shrink-0 text-2xl font-bold">
+        <p className="max-w-[24%] shrink-0 truncate text-2xl font-bold">
           <span className="text-muted">Juega </span>
           <span style={{ color: teamColor(activeIndex) }}>{activeTeam?.name}</span>
         </p>
-        <p
-          className={`flex h-14 min-w-0 flex-1 items-center justify-center rounded-2xl px-6 text-2xl font-black transition-colors ${status.className}`}
-          role="status"
-        >
-          <span className="truncate">{status.text}</span>
-        </p>
-        <p className="bg-night/60 shrink-0 rounded-full px-5 py-1 text-2xl font-extrabold tabular-nums">
+        <div className="min-w-0 flex-1">
+          <StatusBanner tone={status.tone}>{status.text}</StatusBanner>
+        </div>
+        <InfoPill>
           {game.matchedPairIds.length} de {game.pairs.length} parejas
-        </p>
-        <Button variant="secondary" className="shrink-0 px-5 py-3 text-lg" onClick={restartBoard}>
-          ↻ Reiniciar tablero
+        </InfoPill>
+        <Button variant="secondary" className="shrink-0" onClick={restartBoard}>
+          <Icon name="refresh" className="h-6 w-6" />
+          Reiniciar tablero
         </Button>
       </div>
 
-      <div className="relative mt-4 flex min-h-0 flex-1">
+      <div className="relative mt-5 flex min-h-0 flex-1">
         <div className="grid flex-1 auto-rows-fr grid-cols-8 gap-[1.2vw] [@media(max-aspect-ratio:4/3)]:grid-cols-4">
           {game.cards.map((card, index) => {
             const faceUp = isFaceUp(game, card)
             const matched = game.matchedPairIds.includes(card.pairId)
+            const mismatched = game.phase === 'mismatch' && game.selected.includes(card.id)
             return (
               <MemoryCardView
                 key={`${game.boardId}-${card.id}`}
                 pair={pairsById.get(card.pairId)!}
                 position={index + 1}
                 faceUp={faceUp}
-                matched={matched}
+                state={matched ? 'matched' : mismatched ? 'mismatched' : faceUp ? 'selected' : 'hidden'}
                 justMatched={game.lastMatch?.pairId === card.pairId}
-                mismatched={game.phase === 'mismatch' && game.selected.includes(card.id)}
                 disabled={game.phase !== 'playing' || faceUp}
                 onFlip={() => send({ type: 'flip', cardId: card.id, teamId: session.activeTeamId })}
               />
@@ -136,12 +134,18 @@ export function MemoryGame() {
         </div>
 
         {(game.phase === 'complete' || game.phase === 'finished') && (
-          <div className="bg-night/75 absolute inset-0 flex flex-col items-center justify-center gap-8 rounded-[2rem] text-center backdrop-blur-sm">
-            <p className="font-display text-6xl uppercase">¡Tablero completo!</p>
-            <p className="text-muted text-3xl font-semibold">Encontraron las {game.pairs.length} parejas.</p>
-            <Button className="px-12 py-5 text-3xl" onClick={() => send({ type: 'showResults' })}>
-              Ver resultados
-            </Button>
+          <div className="absolute inset-0 grid place-items-center rounded-[var(--radius-panel)] bg-[rgb(236_238_243/0.82)]">
+            <div className="rise-in flex flex-col items-center gap-5 rounded-[var(--radius-panel)] bg-white px-14 py-10 text-center shadow-[var(--shadow-elev-3)]">
+              <span className="bg-success-soft text-success grid h-20 w-20 place-items-center rounded-full">
+                <Icon name="check" className="h-11 w-11" strokeWidth={3} />
+              </span>
+              <p className="font-display text-ink text-6xl font-extrabold tracking-tight">¡Tablero completo!</p>
+              <p className="text-ink-2 text-3xl font-medium">Encontraron las {game.pairs.length} parejas.</p>
+              <Button size="xl" onClick={() => send({ type: 'showResults' })}>
+                Ver resultados
+                <Icon name="arrowRight" className="h-9 w-9" strokeWidth={2.5} />
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -149,52 +153,82 @@ export function MemoryGame() {
   )
 }
 
+type CardState = 'hidden' | 'selected' | 'matched' | 'mismatched'
+
 type MemoryCardViewProps = {
   pair: MemoryPair
   position: number
   faceUp: boolean
-  matched: boolean
+  state: CardState
   justMatched: boolean
-  mismatched: boolean
   disabled: boolean
   onFlip: () => void
 }
 
-function MemoryCardView({ pair, position, faceUp, matched, justMatched, mismatched, disabled, onFlip }: MemoryCardViewProps) {
-  const ring = matched ? 'ring-accent-3' : mismatched ? 'ring-accent' : 'ring-transparent'
+// Estado del frente: borde de color + insignia con ícono (no depende solo del color).
+const FRONT_STATE: Record<Exclude<CardState, 'hidden'>, { ring: string; badge: string; icon: 'check' | 'x' | 'hand' }> = {
+  selected: { ring: 'var(--color-accent)', badge: 'bg-accent', icon: 'hand' },
+  matched: { ring: 'var(--color-success)', badge: 'bg-success', icon: 'check' },
+  mismatched: { ring: 'var(--color-danger)', badge: 'bg-danger', icon: 'x' },
+}
+
+function MemoryCardView({ pair, position, faceUp, state, justMatched, disabled, onFlip }: MemoryCardViewProps) {
+  const front = state === 'hidden' ? null : FRONT_STATE[state]
   return (
     <button
       type="button"
       onClick={onFlip}
       disabled={disabled}
       aria-label={faceUp ? pair.label : `Carta ${position}, boca abajo`}
-      className={`group relative min-h-0 rounded-2xl perspective-[1200px] ${disabled ? 'cursor-default' : 'cursor-pointer'} ${justMatched ? 'animate-[match-pop_0.6s_ease-out]' : ''}`}
+      className={`group relative min-h-0 rounded-[var(--radius-control)] [perspective:1200px] ${disabled ? 'cursor-default' : 'cursor-pointer'} ${justMatched ? 'animate-[match-pop_0.6s_ease-out]' : ''}`}
     >
-      <div
-        className="absolute inset-0 transition-transform duration-500 transform-3d"
-        style={{ transform: faceUp ? 'rotateY(180deg)' : 'none' }}
-      >
-        {/* Dorso */}
-        <div className="bg-surface-strong absolute inset-0 grid place-items-center overflow-hidden rounded-2xl ring-4 ring-white/15 backface-hidden group-enabled:group-hover:ring-white/50">
-          <div className="absolute inset-[8%] rounded-xl border-4 border-dashed border-white/10" />
-          <span className="font-display text-accent-2 text-6xl">?</span>
-        </div>
-        {/* Frente */}
+      {/* Elevación al pasar el cursor por una carta disponible. */}
+      <div className="absolute inset-0 transition-transform duration-200 ease-out group-enabled:group-hover:-translate-y-1.5">
         <div
-          className={`bg-ink absolute inset-0 flex flex-col overflow-hidden rounded-2xl ring-6 backface-hidden ${ring}`}
-          style={{ transform: 'rotateY(180deg)' }}
+          className="absolute inset-0 transition-transform duration-500 ease-[var(--ease-soft)] transform-3d"
+          style={{ transform: faceUp ? 'rotateY(180deg)' : 'none' }}
         >
-          <div className="relative min-h-0 flex-1">
-            <img
-              src={pair.image}
-              alt=""
-              className="absolute inset-0 h-full w-full object-contain p-[10%]"
-              draggable={false}
-              // Si la imagen falla se oculta: el nombre de la carta sigue visible y la pareja se puede jugar.
-              onError={(event) => (event.currentTarget.style.visibility = 'hidden')}
-            />
+          {/* Dorso: magenta institucional con trama sutil y el símbolo de Godoy Cruz sobre placa blanca. */}
+          <div
+            className="absolute inset-0 grid place-items-center overflow-hidden rounded-[var(--radius-control)] backface-hidden"
+            style={{
+              background:
+                'repeating-linear-gradient(45deg, rgb(255 255 255 / 0.06) 0 10px, transparent 10px 20px), linear-gradient(160deg, var(--color-accent) 0%, var(--color-accent-deep) 100%)',
+              boxShadow: 'inset 0 1px 0 rgb(255 255 255 / 0.35), inset 0 -4px 0 rgb(0 0 0 / 0.25), var(--shadow-elev-2)',
+            }}
+          >
+            <span className="absolute inset-[7%] rounded-xl border-2 border-white/25" />
+            <span className="grid aspect-square w-[52%] place-items-center overflow-hidden rounded-full bg-white p-[6%] shadow-[0_4px_10px_rgb(0_0_0/0.25)]">
+              <img src={brand.symbol} alt="" className="max-h-full max-w-full object-contain mix-blend-multiply" draggable={false} />
+            </span>
           </div>
-          <p className="text-night px-2 pb-2 text-center text-lg leading-tight font-extrabold">{pair.label}</p>
+          {/* Frente */}
+          <div
+            className="absolute inset-0 flex flex-col overflow-hidden rounded-[var(--radius-control)] bg-white backface-hidden"
+            style={{
+              transform: 'rotateY(180deg)',
+              boxShadow: front ? `inset 0 0 0 5px ${front.ring}, var(--shadow-elev-2)` : 'var(--shadow-elev-2)',
+            }}
+          >
+            {front && (
+              <span className={`absolute top-2 right-2 z-10 grid h-9 w-9 place-items-center rounded-full text-white shadow ${front.badge}`}>
+                <Icon name={front.icon} className="h-5 w-5" strokeWidth={3} />
+              </span>
+            )}
+            <div className="relative min-h-0 flex-1">
+              <img
+                src={pair.image}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                draggable={false}
+                // Si la imagen falla se oculta: el nombre de la carta sigue visible y la pareja se puede jugar.
+                onError={(event) => (event.currentTarget.style.visibility = 'hidden')}
+              />
+            </div>
+            <p className="bg-surface-2 text-ink border-line mx-[5px] mb-[5px] border-t px-2 py-2 text-center text-lg leading-tight font-bold">
+              {pair.label}
+            </p>
+          </div>
         </div>
       </div>
     </button>

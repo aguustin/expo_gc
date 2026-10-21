@@ -1,30 +1,62 @@
 @import 'tailwindcss';
 
-/* Paleta central. Para adaptar a la identidad oficial de Godoy Cruz, ajustar estos tokens.
-   `static` emite todas las variables aunque ninguna clase las use (los colores de equipo se arman dinámicamente). */
+/* ==========================================================================
+   Sistema visual — Godoy Cruz · Casa del Futuro
+   Tema claro y sobrio: superficies neutras elevadas sobre un lienzo gris cálido,
+   con el magenta institucional (#ad0a5d) reservado para acciones, selección e identidad.
+   `static` emite todas las variables aunque ninguna clase las use (p. ej. colores de equipo).
+   ========================================================================== */
 @theme static {
-  --font-sans: 'Segoe UI', 'Trebuchet MS', system-ui, sans-serif;
-  --font-display: 'Arial Black', 'Segoe UI Black', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Segoe UI Variable Display', 'Segoe UI', system-ui, sans-serif;
 
-  --color-night: #120e2b;
-  --color-surface: #1f1846;
-  --color-surface-strong: #2c2363;
-  --color-ink: #fdfbff;
-  --color-muted: #b9b2e0;
+  /* Superficies (de atrás hacia adelante) */
+  --color-canvas: #eceef3;
+  --color-surface: #ffffff;
+  --color-surface-2: #f5f6f9;
+  --color-surface-3: #e6e9f0;
+  --color-line: #d5dae4;
+  --color-line-strong: #b9c0ce;
 
-  --color-accent: #ff4d6d;
-  --color-accent-2: #ffb703;
-  --color-accent-3: #06d6a0;
-  --color-accent-4: #4cc9f0;
+  /* Texto (contraste sobre blanco: ink 17:1, ink-2 9:1, muted 5,9:1) */
+  --color-ink: #161a24;
+  --color-ink-2: #3a4152;
+  --color-muted: #5b6475;
 
-  /* Un color fijo por posición de equipo (1 a 4). */
-  --color-team-1: #ff4d6d;
-  --color-team-2: #ffb703;
-  --color-team-3: #06d6a0;
-  --color-team-4: #4cc9f0;
+  /* Identidad: blanco sobre accent = 7,05:1 (AAA) */
+  --color-accent: #ad0a5d;
+  --color-accent-strong: #860747;
+  --color-accent-deep: #5e0532;
+  --color-accent-soft: #fbe8f1;
+  --color-accent-line: #efb9d3;
+
+  /* Estados (siempre acompañados de ícono y texto, nunca solo color) */
+  --color-success: #13723a;
+  --color-success-soft: #e2f3e8;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+  --color-warning: #a8510a;
+  --color-warning-soft: #fdf0e1;
+
+  /* Un color por posición de equipo: distinguibles entre sí y del magenta y del verde/rojo de estado. */
+  --color-team-1: #1d4ed8;
+  --color-team-2: #c2410c;
+  --color-team-3: #0e7490;
+  --color-team-4: #7e22ce;
+
+  /* Elevación: sombras en capas (ambiente + luz principal). Un solo nivel por superficie. */
+  --shadow-elev-1: 0 1px 2px rgb(22 26 36 / 0.06), 0 2px 6px rgb(22 26 36 / 0.06);
+  --shadow-elev-2: 0 1px 3px rgb(22 26 36 / 0.08), 0 10px 24px -6px rgb(22 26 36 / 0.16);
+  --shadow-elev-3: 0 2px 6px rgb(22 26 36 / 0.08), 0 24px 48px -16px rgb(22 26 36 / 0.32);
+  --shadow-inset: inset 0 2px 4px rgb(22 26 36 / 0.08);
+
+  --radius-panel: 1.75rem;
+  --radius-control: 1.125rem;
+
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Todo escala con el ancho de pantalla: pensado para un TV de 40-42" (1080p o 4K) visto a distancia. */
+/* Todo escala con el ancho de pantalla: pensado para un TV o proyector 1080p/4K visto a distancia. */
 html {
   font-size: clamp(16px, 1.25vw, 48px);
 }
@@ -32,26 +64,80 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--color-night);
+  background-color: var(--color-canvas);
+  /* Iluminación ambiental muy suave para dar profundidad al lienzo (estática, sin costo de animación). */
   background-image:
-    radial-gradient(circle at 12% 18%, rgb(255 77 109 / 0.22), transparent 32%),
-    radial-gradient(circle at 88% 12%, rgb(76 201 240 / 0.2), transparent 30%),
-    radial-gradient(circle at 75% 92%, rgb(6 214 160 / 0.16), transparent 34%),
-    radial-gradient(circle at 20% 95%, rgb(255 183 3 / 0.14), transparent 30%);
+    radial-gradient(1200px 700px at 8% -10%, rgb(173 10 93 / 0.07), transparent 60%),
+    radial-gradient(900px 600px at 100% 110%, rgb(29 78 216 / 0.05), transparent 60%),
+    linear-gradient(180deg, #f3f4f8 0%, var(--color-canvas) 100%);
   background-attachment: fixed;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
+/* ---------- Superficies y profundidad reutilizables ---------- */
+
+/* Panel elevado: borde de luz superior + sombra en capas. */
+.surface-raised {
+  background: var(--color-surface);
+  border: 1px solid rgb(22 26 36 / 0.07);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    var(--shadow-elev-2);
+}
+
+/* Panel hundido (pistas, contenedores secundarios). */
+.surface-sunken {
+  background: var(--color-surface-2);
+  box-shadow: var(--shadow-inset);
+}
+
+/* Tarjeta inclinable: perspectiva solo al pasar el cursor o enfocar, sin afectar el área de clic. */
+.tilt-card {
+  transform: perspective(1200px) rotateX(0deg) translateY(0);
+  transition:
+    transform 260ms var(--ease-soft),
+    box-shadow 260ms var(--ease-soft);
+}
+.tilt-card:where(:hover, :focus-visible):not(:disabled) {
+  transform: perspective(1200px) rotateX(4deg) translateY(-6px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    var(--shadow-elev-3);
+}
+
 /* Feedback de pareja encontrada en Memoria. */
 @keyframes match-pop {
   0% { transform: scale(1); }
-  40% { transform: scale(1.08); }
+  40% { transform: scale(1.06); }
   100% { transform: scale(1); }
 }
 
+/* Entrada breve de pantallas y paneles. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 360ms var(--ease-soft) both;
+}
+
 :focus-visible {
-  outline: 4px solid var(--color-accent-2);
+  outline: 4px solid var(--color-accent);
   outline-offset: 4px;
+}
+
+/* Movimiento reducido: se eliminan inclinaciones y animaciones decorativas. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+  .tilt-card:where(:hover, :focus-visible):not(:disabled) {
+    transform: none;
+  }
 }

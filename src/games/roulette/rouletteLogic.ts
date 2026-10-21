@@ -3,7 +3,7 @@
 // debe despachar. Los puntajes y el turno viven solo en la sesión; acá no se duplican.
 import type { SessionAction } from '../../state/session.ts'
 
-export const MAX_QUESTIONS_PER_GAME = 12
+export const MAX_QUESTIONS_PER_GAME = 11
 export const POINTS_PER_CORRECT_ANSWER = 100
 export const ANSWER_TIME_MS = 30_000
 
@@ -12,6 +12,8 @@ export type RouletteQuestion = {
   question: string
   options: string[]
   correctOption: number
+  // Imagen relacionada con la pregunta; se muestra mientras se responde (null si no hay).
+  image: string | null
 }
 
 export type Outcome = 'correct' | 'wrong' | 'timeout'
@@ -51,7 +53,7 @@ export function parseQuestions(raw: unknown): { questions: RouletteQuestion[]; r
   const seen = new Set<string>()
   const questions: RouletteQuestion[] = []
   for (const item of items) {
-    const { id, question, options, correctOption } = (item ?? {}) as Record<string, unknown>
+    const { id, question, options, correctOption, image } = (item ?? {}) as Record<string, unknown>
     const valid =
       typeof id === 'string' &&
       id.trim() !== '' &&
@@ -63,10 +65,17 @@ export function parseQuestions(raw: unknown): { questions: RouletteQuestion[]; r
       options.every((option) => typeof option === 'string' && option.trim() !== '') &&
       Number.isInteger(correctOption) &&
       (correctOption as number) >= 0 &&
-      (correctOption as number) < options.length
+      (correctOption as number) < options.length &&
+      (image === undefined || image === null || (typeof image === 'string' && image.trim() !== ''))
     if (!valid) continue
     seen.add(id)
-    questions.push({ id, question, options: options as string[], correctOption: correctOption as number })
+    questions.push({
+      id,
+      question,
+      options: options as string[],
+      correctOption: correctOption as number,
+      image: (image as string | null | undefined) ?? null,
+    })
   }
   return { questions, rejected: items.length - questions.length }
 }
