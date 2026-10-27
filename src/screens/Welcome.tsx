@@ -11,7 +11,7 @@ export function Welcome({ onStart, onRaffle }: { onStart: () => void; onRaffle: 
     <div className="flex h-screen flex-col overflow-hidden px-[5vw] py-[4vh]">
       <main className="grid min-h-0 flex-1 grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center gap-[4vw]">
         <section className="rise-in">
-          <span className="surface-raised grid h-32 w-32 place-items-center overflow-hidden rounded-[1.75rem] p-3">
+          <span className="surface-raised grid h-36 w-32 place-items-center overflow-hidden rounded-[1.75rem] p-3">
             <img
               src={brand.symbol}
               alt={`Símbolo de ${brand.name}`}
@@ -59,7 +59,7 @@ export function Welcome({ onStart, onRaffle }: { onStart: () => void; onRaffle: 
         <button
           type="button"
           onClick={onRaffle}
-          className="mt-9 text-muted/70 hover:text-ink-2 mr-auto flex items-center gap-2 rounded-lg px-2 py-1 text-base font-semibold transition-colors"
+          className="mt-12 text-muted/70 hover:text-ink-2 mr-auto flex items-center gap-2 rounded-lg px-2 py-1 text-base font-semibold transition-colors"
         >
           <Icon name="lock" className=" h-4 w-4" />
           Sorteo

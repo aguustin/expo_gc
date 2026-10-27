@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import expoEduLogo from '../assets/expo-edu.png'
+import expoEduLogo from '../assets/expo-edu-comp.png'
 import { BrandSymbol } from '../components/AppShell.tsx'
 import { Button } from '../components/Button.tsx'
 import { ConfirmDialog } from '../components/ConfirmDialog.tsx'

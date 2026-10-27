@@ -31,7 +31,7 @@ export function AppShell({ aside, children, fitScreen = false }: AppShellProps) 
 // Símbolo de Godoy Cruz sobre una placa blanca elevada (el JPEG original tiene fondo blanco).
 export function BrandSymbol({ className = '' }: { className?: string }) {
   return (
-    <span className={`surface-raised grid shrink-0 place-items-center overflow-hidden rounded-2xl p-1.5 ${className}`}>
+    <span className={`surface-raised grid shrink-0 place-items-center overflow-hidden rounded-2xl p-1.5 ${className} h-22`}>
       <img src={brand.symbol} alt={`Símbolo de ${brand.name}`} className="max-h-full max-w-full object-contain mix-blend-multiply" draggable={false} />
     </span>
   )
