@@ -4,6 +4,8 @@ import { GameStage } from './screens/GameStage.tsx'
 import { MainMenu } from './screens/MainMenu.tsx'
 import { Results } from './screens/Results.tsx'
 import { TeamSetup } from './screens/TeamSetup.tsx'
+import { RaffleAccessDialog } from './raffle/RaffleAccessDialog.tsx'
+import { RaffleScreen } from './raffle/RaffleScreen.tsx'
 import { Welcome } from './screens/Welcome.tsx'
 import { SessionProvider, useSession } from './state/SessionContext.tsx'
 
@@ -12,11 +14,19 @@ function CurrentScreen() {
   // La bienvenida es solo visual: no forma parte de la sesión ni se guarda. Se muestra al abrir
   // la app (salvo que se haya recuperado una partida en curso) y al tocar «Inicio» en el menú.
   const [showWelcome, setShowWelcome] = useState(() => state.phase === 'menu')
+  // El sorteo de colegios también es solo visual: se entra desde la bienvenida con contraseña.
+  const [raffle, setRaffle] = useState<'closed' | 'asking' | 'open'>('closed')
 
   switch (state.phase) {
     case 'menu':
+      if (raffle === 'open') return <RaffleScreen onExit={() => setRaffle('closed')} />
       return showWelcome ? (
-        <Welcome onStart={() => setShowWelcome(false)} />
+        <>
+          <Welcome onStart={() => setShowWelcome(false)} onRaffle={() => setRaffle('asking')} />
+          {raffle === 'asking' && (
+            <RaffleAccessDialog onCancel={() => setRaffle('closed')} onGranted={() => setRaffle('open')} />
+          )}
+        </>
       ) : (
         <MainMenu onHome={() => setShowWelcome(true)} />
       )

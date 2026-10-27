@@ -6,7 +6,7 @@ import { GAMES } from '../games/catalog.ts'
 
 // Pantalla de bienvenida (estado visual de App, no de la sesión): identidad institucional
 // y una única acción para entrar al menú de juegos.
-export function Welcome({ onStart }: { onStart: () => void }) {
+export function Welcome({ onStart, onRaffle }: { onStart: () => void; onRaffle: () => void }) {
   return (
     <div className="flex h-screen flex-col overflow-hidden px-[5vw] py-[4vh]">
       <main className="grid min-h-0 flex-1 grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center gap-[4vw]">
@@ -55,6 +55,15 @@ export function Welcome({ onStart }: { onStart: () => void }) {
       </main>
 
       <footer className="mt-4 flex items-center justify-end gap-5">
+        {/* Acceso discreto al sorteo (pide contraseña). */}
+        <button
+          type="button"
+          onClick={onRaffle}
+          className="mt-9 text-muted/70 hover:text-ink-2 mr-auto flex items-center gap-2 rounded-lg px-2 py-1 text-base font-semibold transition-colors"
+        >
+          <Icon name="lock" className=" h-4 w-4" />
+          Sorteo
+        </button>
         <p className="text-muted text-xl font-bold tracking-wide uppercase">Sede</p>
         <span className="surface-raised inline-flex h-20 items-center overflow-hidden rounded-2xl px-5 py-2">
           <img

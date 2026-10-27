@@ -1,0 +1,23 @@
+[
+  { "code": "2-006", "name": "Helen Keller" },
+  { "code": "0-152", "name": "Tren Trasandino" },
+  { "code": "1-109", "name": "Juan Martínez de Rosas" },
+  { "code": "P-011", "name": "Santa María de Los Ángeles" },
+  { "code": "P-271", "name": "Colegio María Reina" },
+  { "code": "PS-097", "name": "ISEP" },
+  { "code": "4-076", "name": "Arquitecto Carlos Thays" },
+  { "code": "4-188", "name": "Padre Eduardo Sergio Iácono" },
+  { "code": "4-068", "name": "Atilio Anastasi" },
+  { "code": "4-120", "name": "General José de San Martín" },
+  { "code": "4-118", "name": "San José" },
+  { "code": "4-109", "name": "Ingeniero Álvarez Condarco" },
+  { "code": "4-111", "name": "Ing. Pablo Nogués" },
+  { "code": "4-092", "name": "General Las Heras" },
+  { "code": "4-020/1", "name": "CIET" },
+  { "code": "4-124", "name": "Reynaldo Merín" },
+  { "code": "UNCuyo", "name": "Escuela de Comercio Martín Zapata" },
+  { "code": "PT-169", "name": "Instituto de Estudios Superiores Nuevo Cuyo" },
+  { "code": "ETec-UM", "name": "Escuela Técnica de la Universidad de Mendoza" },
+  { "code": "PS-113", "name": "Tomás Alva Edison" },
+  { "code": "4-053", "name": "Dr. Horacio Román Martínez Leánez" }
+]

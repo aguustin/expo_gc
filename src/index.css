@@ -123,6 +123,15 @@ body {
   animation: rise-in 360ms var(--ease-soft) both;
 }
 
+/* Papel picado del cartel de ganador del sorteo: una sola caída. */
+@keyframes confetti-fall {
+  from { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  to { transform: translateY(110vh) rotate(540deg); opacity: 0.9; }
+}
+.confetti-piece {
+  animation: confetti-fall 2600ms linear both;
+}
+
 :focus-visible {
   outline: 4px solid var(--color-accent);
   outline-offset: 4px;
@@ -139,5 +148,8 @@ body {
   }
   .tilt-card:where(:hover, :focus-visible):not(:disabled) {
     transform: none;
+  }
+  .confetti-piece {
+    display: none;
   }
 }
